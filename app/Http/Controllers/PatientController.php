@@ -24,7 +24,7 @@ class PatientController extends Controller
             return redirect()->route('login');
         }
 
-        $patient = User::with(['scans', 'reports'])->where('role', 'patient')->findOrFail($id);
+        $patient = User::with(['scans', 'reports.reviews.doctor'])->where('role', 'patient')->findOrFail($id);
 
         return view('patients.show', compact('patient'));
     }}

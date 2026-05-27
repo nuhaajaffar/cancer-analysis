@@ -36,15 +36,12 @@
         @foreach($patient->scans as $scan)
 
             <li>
-
                 <a
                     href="{{ asset('storage/' . $scan->file_path) }}"
                     target="_blank">
 
                     View Scan
-
                 </a>
-
             </li>
 
         @endforeach
@@ -73,6 +70,32 @@
                     </a>
 
                     - Status: {{ $report->status }}
+
+                    <br>
+
+                    <a
+                        href="{{ route('doctor-reviews.create', $report->id) }}"
+                        class="btn">
+                        Add Doctor Review
+                    </a>
+
+                    @if($report->reviews->count())
+                        <ul>
+                            @foreach($report->reviews as $review)
+                                <li>
+                                    <strong>Doctor:</strong>
+                                    {{ $review->doctor->name ?? 'Unknown Doctor' }}
+
+                                    <br>
+
+                                    <strong>Review:</strong>
+                                    {{ $review->review }}
+                                </li>
+                            @endforeach
+                        </ul>
+                    @else
+                        <p>No doctor reviews yet.</p>
+                    @endif
                 </li>
             @endforeach
         </ul>

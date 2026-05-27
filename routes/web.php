@@ -5,6 +5,7 @@ use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\PatientController;
 use App\Http\Controllers\ScanController;
 use App\Http\Controllers\ReportController;
+use App\Http\Controllers\DoctorReviewController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
@@ -25,3 +26,6 @@ Route::post('/patients/{id}/upload-scan', [ScanController::class, 'store'])->nam
 
 Route::get('/patients/{id}/upload-report', [ReportController::class, 'create'])->name('reports.create');
 Route::post('/patients/{id}/upload-report', [ReportController::class, 'store'])->name('reports.store');
+
+Route::get('/reports/{reportId}/review', [DoctorReviewController::class, 'create'])->name('doctor-reviews.create');
+Route::post('/reports/{reportId}/review', [DoctorReviewController::class, 'store'])->name('doctor-reviews.store');
