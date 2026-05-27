@@ -16,7 +16,13 @@
         class="btn">
 
         Upload Scan
+    </a>
 
+    <a
+        href="{{ route('reports.create', $patient->id) }}"
+        class="btn">
+        
+        Upload Report
     </a>
 
     <hr>
@@ -48,6 +54,32 @@
     @else
 
         <p>No scans uploaded.</p>
+
+    @endif
+
+    <hr>
+
+    <h3>Uploaded Reports</h3>
+
+    @if($patient->reports->count())
+
+        <ul>
+            @foreach($patient->reports as $report)
+                <li>
+                    <a
+                        href="{{ asset('storage/' . $report->report_path) }}"
+                        target="_blank">
+                        View Report
+                    </a>
+
+                    - Status: {{ $report->status }}
+                </li>
+            @endforeach
+        </ul>
+
+    @else
+
+        <p>No reports uploaded.</p>
 
     @endif
 

@@ -4,6 +4,7 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\PatientController;
 use App\Http\Controllers\ScanController;
+use App\Http\Controllers\ReportController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
@@ -20,5 +21,7 @@ Route::get('/patients', [PatientController::class, 'index'])->name('patients.ind
 Route::get('/patients/{id}', [PatientController::class, 'show'])->name('patients.show');
 
 Route::get('/patients/{id}/upload-scan', [ScanController::class, 'create'])->name('scans.create');
-
 Route::post('/patients/{id}/upload-scan', [ScanController::class, 'store'])->name('scans.store');
+
+Route::get('/patients/{id}/upload-report', [ReportController::class, 'create'])->name('reports.create');
+Route::post('/patients/{id}/upload-report', [ReportController::class, 'store'])->name('reports.store');
