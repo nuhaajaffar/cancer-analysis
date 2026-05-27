@@ -8,4 +8,47 @@
     <p><strong>Role:</strong> {{ $patient->role }}</p>
 
     <a href="{{ route('patients.index') }}" class="btn">Back to Patient List</a>
+
+    <br><br>
+
+    <a
+        href="{{ route('scans.create', $patient->id) }}"
+        class="btn">
+
+        Upload Scan
+
+    </a>
+
+    <hr>
+
+    <h3>Uploaded Scans</h3>
+
+    @if($patient->scans->count())
+
+        <ul>
+
+        @foreach($patient->scans as $scan)
+
+            <li>
+
+                <a
+                    href="{{ asset('storage/' . $scan->file_path) }}"
+                    target="_blank">
+
+                    View Scan
+
+                </a>
+
+            </li>
+
+        @endforeach
+
+        </ul>
+
+    @else
+
+        <p>No scans uploaded.</p>
+
+    @endif
+
 @endsection
