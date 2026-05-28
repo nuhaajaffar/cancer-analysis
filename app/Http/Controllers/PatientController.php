@@ -33,7 +33,8 @@ class PatientController extends Controller
     {
         $patient = User::with([
                 'scans',
-                'reports.reviews.doctor'
+                'reports.reviews.doctor',
+                'patientAppointments.staff'
             ])
             ->findOrFail(session('user_id'));
 

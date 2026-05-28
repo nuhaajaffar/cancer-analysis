@@ -58,10 +58,20 @@
 
         @if(session()->has('user_id'))
 
+            @php
+                $isStaff = in_array(session('user_role'), [
+                    'admin',
+                    'doctor',
+                    'radiographer',
+                    'radiologist'
+                ]);
+            @endphp
+
             <a href="{{ route('dashboard') }}">Dashboard</a>
 
-            @if(in_array(session('user_role'), ['admin', 'doctor', 'radiographer', 'radiologist']))
+            @if($isStaff)
                 <a href="{{ route('patients.index') }}">Patients</a>
+                <a href="{{ route('appointments.index') }}">Appointments</a>
             @endif
 
             @if(session('user_role') === 'patient')
@@ -69,7 +79,8 @@
             @endif
 
             <span style="margin-right: 15px;">
-                Logged in as {{ session('user_name') }} ({{ session('user_role') }})
+                Logged in as {{ session('user_name') }}
+                ({{ session('user_role') }})
             </span>
 
             <form action="{{ route('logout') }}" method="POST" style="display:inline;">

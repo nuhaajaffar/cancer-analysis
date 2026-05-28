@@ -104,4 +104,14 @@
 
     @endif
 
+    @if(in_array(session('user_role'), ['admin', 'doctor', 'radiographer', 'radiologist']))
+    
+        <a href="{{ route('appointments.create', $patient->id) }}" class="btn">
+
+            Create Appointment
+            
+        </a>
+        
+    @endif
+
 @endsection

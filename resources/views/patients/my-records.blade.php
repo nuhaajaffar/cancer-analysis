@@ -59,4 +59,25 @@
     @else
         <p>No reports uploaded yet.</p>
     @endif
+
+    <h3>My Appointments</h3>
+
+    @if($patient->patientAppointments->count())
+        <ul>
+            @foreach($patient->patientAppointments as $appointment)
+                <li>
+                    <strong>Date:</strong> {{ $appointment->appointment_date }}
+                    <br>
+                    <strong>With:</strong> {{ $appointment->staff->name ?? 'Unknown Staff' }}
+                    <br>
+                    <strong>Purpose:</strong> {{ $appointment->purpose }}
+                    <br>
+                    <strong>Status:</strong> {{ $appointment->status }}
+                </li>
+            @endforeach
+        </ul>
+    @else
+        <p>No appointments scheduled.</p>
+    @endif
+    
 @endsection
