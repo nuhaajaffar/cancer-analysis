@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Models\User;
 use Illuminate\Database\Eloquent\Model;
 
 class PatientScan extends Model
@@ -14,4 +15,9 @@ class PatientScan extends Model
         'ai_confidence',
         'ai_status',
     ];
+
+    public function patient()
+    {
+        return $this->belongsTo(User::class, 'patient_id');
+    }
 }
