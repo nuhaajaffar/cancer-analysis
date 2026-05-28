@@ -29,6 +29,15 @@ Route::middleware(['role:admin,doctor,radiographer,radiologist'])->group(functio
 
     Route::get('/patients/{id}', [PatientController::class, 'show'])
         ->name('patients.show');
+
+    Route::get('/appointments', [AppointmentController::class, 'index'])
+        ->name('appointments.index');
+
+    Route::get('/patients/{id}/appointments/create', [AppointmentController::class, 'create'])
+        ->name('appointments.create');
+
+    Route::post('/patients/{id}/appointments', [AppointmentController::class, 'store'])
+        ->name('appointments.store');
 });
 
 Route::middleware(['role:radiographer'])->group(function () {
