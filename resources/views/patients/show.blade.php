@@ -11,19 +11,17 @@
 
     <br><br>
 
-    <a
-        href="{{ route('scans.create', $patient->id) }}"
-        class="btn">
+    @if(session('user_role') === 'radiographer')
+        <a href="{{ route('scans.create', $patient->id) }}" class="btn">
+            Upload Scan
+        </a>
+    @endif
 
-        Upload Scan
-    </a>
-
-    <a
-        href="{{ route('reports.create', $patient->id) }}"
-        class="btn">
-        
-        Upload Report
-    </a>
+    @if(session('user_role') === 'radiologist')
+        <a href="{{ route('reports.create', $patient->id) }}" class="btn">
+            Upload Report
+        </a>
+    @endif
 
     <hr>
 
@@ -73,11 +71,11 @@
 
                     <br>
 
-                    <a
-                        href="{{ route('doctor-reviews.create', $report->id) }}"
-                        class="btn">
-                        Add Doctor Review
-                    </a>
+                    @if(session('user_role') === 'doctor')
+                        <a href="{{ route('doctor-reviews.create', $report->id) }}" class="btn">
+                            Add Doctor Review
+                        </a>
+                    @endif
 
                     @if($report->reviews->count())
                         <ul>

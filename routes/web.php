@@ -12,20 +12,44 @@ Route::get('/', function () {
     return view('welcome');
 })->name('home');
 
-Route::get('/login', [AuthController::class, 'showLogin'])->name('login');
-Route::post('/login', [AuthController::class, 'login'])->name('login.submit');
-Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
+Route::get('/login', [AuthController::class, 'showLogin'])
+    ->name('login');
+Route::post('/login', [AuthController::class, 'login'])
+    ->name('login.submit');
+Route::post('/logout', [AuthController::class, 'logout'])
+    ->name('logout');
 
-Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
+Route::get('/dashboard', [DashboardController::class, 'index'])
+    ->name('dashboard');
 
-Route::get('/patients', [PatientController::class, 'index'])->name('patients.index');
-Route::get('/patients/{id}', [PatientController::class, 'show'])->name('patients.show');
+Route::middleware(['role:admin,doctor,radiographer,radiologist'])->group(function () {
+    Route::get('/patients', [PatientController::class, 'index'])
+        ->name('patients.index');
 
-Route::get('/patients/{id}/upload-scan', [ScanController::class, 'create'])->name('scans.create');
-Route::post('/patients/{id}/upload-scan', [ScanController::class, 'store'])->name('scans.store');
+    Route::get('/patients/{id}', [PatientController::class, 'show'])
+        ->name('patients.show');
+});
 
-Route::get('/patients/{id}/upload-report', [ReportController::class, 'create'])->name('reports.create');
-Route::post('/patients/{id}/upload-report', [ReportController::class, 'store'])->name('reports.store');
+Route::middleware(['role:radiographer'])->group(function () {
+    Route::get('/patients/{id}/upload-scan', [ScanController::class, 'create'])
+        ->name('scans.create');
 
-Route::get('/reports/{reportId}/review', [DoctorReviewController::class, 'create'])->name('doctor-reviews.create');
-Route::post('/reports/{reportId}/review', [DoctorReviewController::class, 'store'])->name('doctor-reviews.store');
+    Route::post('/patients/{id}/upload-scan', [ScanController::class, 'store'])
+        ->name('scans.store');
+});
+
+Route::middleware(['role:radiologist'])->group(function () {
+    Route::get('/patients/{id}/upload-report', [ReportController::class, 'create'])
+        ->name('reports.create');
+
+    Route::post('/patients/{id}/upload-report', [ReportController::class, 'store'])
+        ->name('reports.store');
+});
+
+Route::middleware(['role:doctor'])->group(function () {
+    Route::get('/reports/{reportId}/review', [DoctorReviewController::class, 'create'])
+        ->name('doctor-reviews.create');
+
+    Route::post('/reports/{reportId}/review', [DoctorReviewController::class, 'store'])
+        ->name('doctor-reviews.store');
+});

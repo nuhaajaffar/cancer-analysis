@@ -58,8 +58,10 @@
 
         @if(session()->has('user_id'))
             <a href="{{ route('dashboard') }}">Dashboard</a>
-            <a href="{{ route('patients.index') }}">Patients</a>
-
+            @if(in_array(session('user_role'), ['admin', 'doctor', 'radiographer', 'radiologist']))
+                <a href="{{ route('patients.index') }}">Patients</a>
+            @endif
+            
             <span style="margin-right: 15px;">
                 Logged in as {{ session('user_name') }} ({{ session('user_role') }})
             </span>
