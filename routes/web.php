@@ -7,6 +7,7 @@ use App\Http\Controllers\ScanController;
 use App\Http\Controllers\ReportController;
 use App\Http\Controllers\DoctorReviewController;
 use App\Http\Controllers\AppointmentController;
+use App\Http\Controllers\AIController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
@@ -38,6 +39,9 @@ Route::middleware(['role:admin,doctor,radiographer,radiologist'])->group(functio
 
     Route::post('/patients/{id}/appointments', [AppointmentController::class, 'store'])
         ->name('appointments.store');
+
+    Route::post('/scans/{scanId}/analyse', [AIController::class, 'analyse'])
+        ->name('scans.analyse');
 });
 
 Route::middleware(['role:radiographer'])->group(function () {

@@ -10,5 +10,8 @@ class PatientScan extends Model
         'patient_id',
         'uploaded_by',
         'file_path',
+        'ai_prediction',
+        'ai_confidence',
+        'ai_status',
     ];
 }

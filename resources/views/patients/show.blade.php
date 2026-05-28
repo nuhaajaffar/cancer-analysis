@@ -40,6 +40,26 @@
 
                     View Scan
                 </a>
+
+                <br>
+
+                <strong>AI Status:</strong> {{ $scan->ai_status }}
+
+                @if($scan->ai_prediction)
+                    <br>
+                    <strong>Prediction:</strong> {{ $scan->ai_prediction }}
+                    <br>
+                    <strong>Confidence:</strong> {{ $scan->ai_confidence }}%
+                @endif
+
+                @if(in_array(session('user_role'), ['admin', 'doctor', 'radiologist']))
+                    <form action="{{ route('scans.analyse', $scan->id) }}" method="POST" style="margin-top: 10px;">
+                        @csrf
+                        <button type="submit" class="btn">
+                            Run AI Analysis
+                        </button>
+                    </form>
+                @endif
             </li>
 
         @endforeach
