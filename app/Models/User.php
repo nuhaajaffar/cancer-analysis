@@ -5,6 +5,7 @@ namespace App\Models;
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
 use App\Models\PatientScan;
 use App\Models\PatientReport;
+use App\Models\Appointment;
 use Database\Factories\UserFactory;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
@@ -58,5 +59,15 @@ class User extends Authenticatable
     public function reports()
     {
         return $this->hasMany(PatientReport::class, 'patient_id');
+    }
+
+    public function patientAppointments()
+    {
+        return $this->hasMany(Appointment::class, 'patient_id');
+    }
+
+    public function staffAppointments()
+    {
+        return $this->hasMany(Appointment::class, 'staff_id');
     }
 }
