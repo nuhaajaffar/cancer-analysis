@@ -53,3 +53,8 @@ Route::middleware(['role:doctor'])->group(function () {
     Route::post('/reports/{reportId}/review', [DoctorReviewController::class, 'store'])
         ->name('doctor-reviews.store');
 });
+
+Route::middleware(['role:patient'])->group(function () {
+    Route::get('/my-records', [PatientController::class, 'myRecords'])
+        ->name('patients.my-records');
+});

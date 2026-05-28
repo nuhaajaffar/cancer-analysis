@@ -57,11 +57,17 @@
         <a href="{{ route('home') }}">Home</a>
 
         @if(session()->has('user_id'))
+
             <a href="{{ route('dashboard') }}">Dashboard</a>
+
             @if(in_array(session('user_role'), ['admin', 'doctor', 'radiographer', 'radiologist']))
                 <a href="{{ route('patients.index') }}">Patients</a>
             @endif
-            
+
+            @if(session('user_role') === 'patient')
+                <a href="{{ route('patients.my-records') }}">My Records</a>
+            @endif
+
             <span style="margin-right: 15px;">
                 Logged in as {{ session('user_name') }} ({{ session('user_role') }})
             </span>
@@ -70,8 +76,11 @@
                 @csrf
                 <button type="submit" class="btn btn-danger">Logout</button>
             </form>
+
         @else
+
             <a href="{{ route('login') }}">Login</a>
+
         @endif
     </nav>
 

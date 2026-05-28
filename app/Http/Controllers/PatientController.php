@@ -27,4 +27,16 @@ class PatientController extends Controller
         $patient = User::with(['scans', 'reports.reviews.doctor'])->where('role', 'patient')->findOrFail($id);
 
         return view('patients.show', compact('patient'));
-    }}
+    }
+
+    public function myRecords()
+    {
+        $patient = User::with([
+                'scans',
+                'reports.reviews.doctor'
+            ])
+            ->findOrFail(session('user_id'));
+
+        return view('patients.my-records', compact('patient'));
+    }
+}
