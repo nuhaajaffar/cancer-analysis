@@ -6,8 +6,21 @@
     <p><strong>Name:</strong> {{ $patient->name }}</p>
     <p><strong>Email:</strong> {{ $patient->email }}</p>
     <p><strong>Role:</strong> {{ $patient->role }}</p>
+    <p><strong>Date of Birth:</strong> {{ $patient->date_of_birth ?? 'Not provided' }}</p>
+    <p><strong>Gender:</strong> {{ $patient->gender ?? 'Not provided' }}</p>
+    <p><strong>Phone:</strong> {{ $patient->phone ?? 'Not provided' }}</p>
+    <p><strong>Address:</strong> {{ $patient->address ?? 'Not provided' }}</p>
+    <p><strong>Medical Notes:</strong> {{ $patient->medical_notes ?? 'Not provided' }}</p>
 
-    <a href="{{ route('patients.index') }}" class="btn">Back to Patient List</a>
+    @if(in_array(session('user_role'), ['admin', 'doctor', 'radiographer', 'radiologist']))
+        <a href="{{ route('patients.edit', $patient->id) }}" class="btn">
+            Edit Patient Profile
+        </a>
+    @endif
+
+    <a href="{{ route('patients.index') }}" class="btn">
+        Back to Patient List
+    </a>
 
     <br><br>
 

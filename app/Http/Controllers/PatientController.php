@@ -49,4 +49,40 @@ class PatientController extends Controller
 
         return view('patients.my-records', compact('patient'));
     }
+
+    public function edit($id)
+    {
+        $patient = User::where('role', 'patient')->findOrFail($id);
+
+        return view('patients.edit', compact('patient'));
+    }
+
+    public function update(Request $request, $id)
+    {
+        $request->validate([
+            'name' => 'required|string|max:255',
+            'email' => 'required|email|max:255',
+            'date_of_birth' => 'nullable|date',
+            'gender' => 'nullable|string|max:50',
+            'phone' => 'nullable|string|max:30',
+            'address' => 'nullable|string',
+            'medical_notes' => 'nullable|string',
+        ]);
+
+        $patient = User::where('role', 'patient')->findOrFail($id);
+
+        $patient->update($request->only([
+            'name',
+            'email',
+            'date_of_birth',
+            'gender',
+            'phone',
+            'address',
+            'medical_notes',
+        ]));
+
+        return redirect()
+            ->route('patients.show', $patient->id)
+            ->with('success', 'Patient profile updated successfully.');
+    }
 }

@@ -51,6 +51,12 @@ Route::middleware(['role:admin,doctor,radiographer,radiologist'])->group(functio
 
     Route::patch('/appointments/{id}/cancel', [AppointmentController::class, 'cancel'])
         ->name('appointments.cancel');
+
+    Route::get('/patients/{id}/edit', [PatientController::class, 'edit'])
+        ->name('patients.edit');
+
+    Route::put('/patients/{id}', [PatientController::class, 'update'])
+        ->name('patients.update');
 });
 
 Route::middleware(['role:radiographer'])->group(function () {
