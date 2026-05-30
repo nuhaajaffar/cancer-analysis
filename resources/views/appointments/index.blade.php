@@ -4,11 +4,33 @@
 
     <h2>Appointments</h2>
 
+    <form method="GET" action="{{ route('appointments.index') }}">
+        <label>Filter by Status</label>
+
+        <select name="status">
+            <option value="">All</option>
+            <option value="scheduled" {{ $status === 'scheduled' ? 'selected' : '' }}>
+                Scheduled
+            </option>
+            <option value="completed" {{ $status === 'completed' ? 'selected' : '' }}>
+                Completed
+            </option>
+            <option value="cancelled" {{ $status === 'cancelled' ? 'selected' : '' }}>
+                Cancelled
+            </option>
+        </select>
+
+        <button type="submit" class="btn">Filter</button>
+
+        <a href="{{ route('appointments.index') }}" class="btn">Reset</a>
+    </form>
+
+    <br>
+
     @if($appointments->count())
 
         <ul>
             @foreach($appointments as $appointment)
-
                 <li>
                     <strong>Patient:</strong> {{ $appointment->patient->name }}
                     <br>
@@ -43,7 +65,6 @@
                 </li>
 
                 <br>
-
             @endforeach
         </ul>
 

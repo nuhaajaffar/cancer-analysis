@@ -13,9 +13,18 @@ class PatientController extends Controller
             return redirect()->route('login');
         }
 
-        $patients = User::where('role', 'patient')->get();
+        $search = request('search');
 
-        return view('patients.index', compact('patients'));
+        $patients = User::where('role', 'patient')
+            ->when($search, function ($query, $search) {
+                $query->where(function ($q) use ($search) {
+                    $q->where('name', 'like', "%{$search}%")
+                    ->orWhere('email', 'like', "%{$search}%");
+                });
+            })
+            ->get();
+
+        return view('patients.index', compact('patients', 'search'));
     }
 
     public function show($id)

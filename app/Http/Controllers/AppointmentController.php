@@ -10,11 +10,16 @@ class AppointmentController extends Controller
 {
     public function index()
     {
+        $status = request('status');
+
         $appointments = Appointment::with(['patient', 'staff'])
+            ->when($status, function ($query, $status) {
+                $query->where('status', $status);
+            })
             ->latest()
             ->get();
 
-        return view('appointments.index', compact('appointments'));
+        return view('appointments.index', compact('appointments', 'status'));
     }
 
     public function create($patientId)
