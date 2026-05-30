@@ -5,9 +5,9 @@
     <p>Your Cancer Analysis record summary.</p>
 
     <ul>
-        <li>My Scans: {{ $stats['myScans'] }}</li>
-        <li>My Reports: {{ $stats['myReports'] }}</li>
-        <li>My Appointments: {{ $stats['myAppointments'] }}</li>
+        @include('components.stat-card', ['title' => 'My Scans', 'value' => $stats['myScans']])
+        @include('components.stat-card', ['title' => 'My Reports', 'value' => $stats['myReports']])
+        @include('components.stat-card', ['title' => 'My Appointments', 'value' => $stats['myAppointments']])
     </ul>
 
     <a href="{{ route('patients.my-records') }}" class="btn">

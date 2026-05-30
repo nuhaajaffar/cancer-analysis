@@ -5,8 +5,8 @@
     <p>Upload and manage patient scans.</p>
 
     <ul>
-        <li>Total Patients: {{ $stats['totalPatients'] }}</li>
-        <li>Total Uploaded Scans: {{ $stats['totalScans'] }}</li>
-        <li>Pending AI Analyses: {{ $stats['pendingAI'] }}</li>
+        @include('components.stat-card', ['title' => 'Total Patients', 'value' => $stats['totalPatients']])
+        @include('components.stat-card', ['title' => 'Total Scans', 'value' => $stats['totalScans']])
+        @include('components.stat-card', ['title' => 'Pending AI Analyses', 'value' => $stats['pendingAI']])
     </ul>
 @endsection

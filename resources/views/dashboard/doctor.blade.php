@@ -5,10 +5,10 @@
     <p>Review patient reports and AI analysis results.</p>
 
     <ul>
-        <li>Total Patients: {{ $stats['totalPatients'] }}</li>
-        <li>Total Reports: {{ $stats['totalReports'] }}</li>
-        <li>Total Appointments: {{ $stats['totalAppointments'] }}</li>
-        <li>Completed AI Analyses: {{ $stats['completedAI'] }}</li>
-        <li>Pending AI Analyses: {{ $stats['pendingAI'] }}</li>
+        @include('components.stat-card', ['title' => 'Total Patients', 'value' => $stats['totalPatients']])
+        @include('components.stat-card', ['title' => 'Total Reports', 'value' => $stats['totalReports']])
+        @include('components.stat-card', ['title' => 'Total Appointments', 'value' => $stats['totalAppointments']])
+        @include('components.stat-card', ['title' => 'Completed AI Analyses', 'value' => $stats['completedAI']])
+        @include('components.stat-card', ['title' => 'Pending AI Analyses', 'value' => $stats['pendingAI']])
     </ul>
 @endsection
