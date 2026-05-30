@@ -11,11 +11,36 @@ class AIController extends Controller
 {
     public function analyse($scanId)
     {
-        $scan = PatientScan::findOrFail($scanId);
+        $scan = PatientScan::with('patient')->findOrFail($scanId);
+
+        if ($scan->ai_status === 'completed') {
+            return back()->withErrors([
+                'ai' => 'This scan has already been analysed.',
+            ]);
+        }
+
+        $scan->update([
+            'ai_status' => 'processing',
+        ]);
 
         $scanPath = storage_path('app/public/' . $scan->file_path);
-
         $pythonScript = base_path('ai_int/analyse_scan.py');
+
+        if (!file_exists($scanPath)) {
+            $scan->update(['ai_status' => 'failed']);
+
+            return back()->withErrors([
+                'ai' => 'Scan file not found.',
+            ]);
+        }
+
+        if (!file_exists($pythonScript)) {
+            $scan->update(['ai_status' => 'failed']);
+
+            return back()->withErrors([
+                'ai' => 'AI script not found.',
+            ]);
+        }
 
         $command = 'python '
             . escapeshellarg($pythonScript)
@@ -26,7 +51,9 @@ class AIController extends Controller
 
         $result = json_decode($output, true);
 
-        if (!$result) {
+        if (!$result || !isset($result['prediction'], $result['confidence'])) {
+            $scan->update(['ai_status' => 'failed']);
+
             return back()->withErrors([
                 'ai' => 'AI analysis failed.',
             ]);
@@ -38,15 +65,18 @@ class AIController extends Controller
             'ai_status' => 'completed',
         ]);
 
-        $scan->load('patient');
-
         $reportFileName = 'ai_report_' . $scan->id . '_' . Str::random(8) . '.pdf';
-
         $relativeReportPath = 'reports/' . $reportFileName;
-
         $absoluteReportPath = storage_path('app/public/' . $relativeReportPath);
-
         $reportScript = base_path('ai_int/generate_report.py');
+
+        if (!file_exists($reportScript)) {
+            $scan->update(['ai_status' => 'failed']);
+
+            return back()->withErrors([
+                'ai' => 'Report generation script not found.',
+            ]);
+        }
 
         $reportCommand = 'python '
             . escapeshellarg($reportScript)
@@ -61,6 +91,14 @@ class AIController extends Controller
 
         shell_exec($reportCommand);
 
+        if (!file_exists($absoluteReportPath)) {
+            $scan->update(['ai_status' => 'failed']);
+
+            return back()->withErrors([
+                'ai' => 'AI report PDF could not be generated.',
+            ]);
+        }
+
         PatientReport::create([
             'patient_id' => $scan->patient_id,
             'uploaded_by' => session('user_id'),
@@ -68,6 +106,6 @@ class AIController extends Controller
             'status' => 'ai_generated',
         ]);
 
-        return back()->with('success', 'AI analysis completed.');
+        return back()->with('success', 'AI analysis and report generation completed.');
     }
 }

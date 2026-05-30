@@ -53,12 +53,16 @@
                 @endif
 
                 @if(in_array(session('user_role'), ['admin', 'doctor', 'radiologist']))
-                    <form action="{{ route('scans.analyse', $scan->id) }}" method="POST" style="margin-top: 10px;">
-                        @csrf
-                        <button type="submit" class="btn">
-                            Run AI Analysis
-                        </button>
-                    </form>
+                    @if($scan->ai_status !== 'completed')
+                        <form action="{{ route('scans.analyse', $scan->id) }}" method="POST" style="margin-top: 10px;">
+                            @csrf
+                            <button type="submit" class="btn">
+                                Run AI Analysis
+                            </button>
+                        </form>
+                    @else
+                        <p>AI analysis already completed.</p>
+                    @endif
                 @endif
             </li>
 
