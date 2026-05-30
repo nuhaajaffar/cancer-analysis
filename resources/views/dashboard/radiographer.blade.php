@@ -2,6 +2,11 @@
 
 @section('content')
     <h2>Radiographer Dashboard</h2>
-    <p>Welcome, Radiographer.</p>
-    <p>You can upload patient scans.</p>
+    <p>Upload and manage patient scans.</p>
+
+    <ul>
+        <li>Total Patients: {{ $stats['totalPatients'] }}</li>
+        <li>Total Uploaded Scans: {{ $stats['totalScans'] }}</li>
+        <li>Pending AI Analyses: {{ $stats['pendingAI'] }}</li>
+    </ul>
 @endsection

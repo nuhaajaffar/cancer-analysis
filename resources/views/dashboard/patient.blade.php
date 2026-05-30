@@ -2,6 +2,15 @@
 
 @section('content')
     <h2>Patient Dashboard</h2>
-    <p>Welcome, Patient.</p>
-    <p>You can view your scan and report history.</p>
+    <p>Your Cancer Analysis record summary.</p>
+
+    <ul>
+        <li>My Scans: {{ $stats['myScans'] }}</li>
+        <li>My Reports: {{ $stats['myReports'] }}</li>
+        <li>My Appointments: {{ $stats['myAppointments'] }}</li>
+    </ul>
+
+    <a href="{{ route('patients.my-records') }}" class="btn">
+        View My Records
+    </a>
 @endsection
