@@ -33,7 +33,15 @@ class PatientController extends Controller
             return redirect()->route('login');
         }
 
-        $patient = User::with(['scans', 'reports.reviews.doctor'])->where('role', 'patient')->findOrFail($id);
+        $patient = User::with([
+                'scans',
+                'reports.reviews.doctor',
+                'assignedDoctor',
+                'assignedRadiographer',
+                'assignedRadiologist',
+            ])
+            ->where('role', 'patient')
+            ->findOrFail($id);
 
         return view('patients.show', compact('patient'));
     }
@@ -54,7 +62,16 @@ class PatientController extends Controller
     {
         $patient = User::where('role', 'patient')->findOrFail($id);
 
-        return view('patients.edit', compact('patient'));
+        $doctors = User::where('role', 'doctor')->get();
+        $radiographers = User::where('role', 'radiographer')->get();
+        $radiologists = User::where('role', 'radiologist')->get();
+
+        return view('patients.edit', compact(
+            'patient',
+            'doctors',
+            'radiographers',
+            'radiologists'
+        ));
     }
 
     public function update(Request $request, $id)
@@ -67,6 +84,9 @@ class PatientController extends Controller
             'phone' => 'nullable|string|max:30',
             'address' => 'nullable|string',
             'medical_notes' => 'nullable|string',
+            'assigned_doctor_id' => 'nullable|exists:users,id',
+            'assigned_radiographer_id' => 'nullable|exists:users,id',
+            'assigned_radiologist_id' => 'nullable|exists:users,id',
         ]);
 
         $patient = User::where('role', 'patient')->findOrFail($id);
@@ -79,6 +99,9 @@ class PatientController extends Controller
             'phone',
             'address',
             'medical_notes',
+            'assigned_doctor_id',
+            'assigned_radiographer_id',
+            'assigned_radiologist_id',
         ]));
 
         return redirect()

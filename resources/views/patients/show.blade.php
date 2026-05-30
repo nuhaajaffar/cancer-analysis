@@ -12,6 +12,14 @@
     <p><strong>Address:</strong> {{ $patient->address ?? 'Not provided' }}</p>
     <p><strong>Medical Notes:</strong> {{ $patient->medical_notes ?? 'Not provided' }}</p>
 
+    <hr>
+
+    <h3>Assigned Staff</h3>
+
+    <p><strong>Doctor:</strong> {{ $patient->assignedDoctor->name ?? 'Not assigned' }}</p>
+    <p><strong>Radiographer:</strong> {{ $patient->assignedRadiographer->name ?? 'Not assigned' }}</p>
+    <p><strong>Radiologist:</strong> {{ $patient->assignedRadiologist->name ?? 'Not assigned' }}</p>
+
     @if(in_array(session('user_role'), ['admin', 'doctor', 'radiographer', 'radiologist']))
         <a href="{{ route('patients.edit', $patient->id) }}" class="btn">
             Edit Patient Profile

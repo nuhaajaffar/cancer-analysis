@@ -31,6 +31,9 @@ class User extends Authenticatable
         'phone',
         'address',
         'medical_notes',
+        'assigned_doctor_id',
+        'assigned_radiographer_id',
+        'assigned_radiologist_id',
     ];
 
     /**
@@ -74,5 +77,20 @@ class User extends Authenticatable
     public function staffAppointments()
     {
         return $this->hasMany(Appointment::class, 'staff_id');
+    }
+
+    public function assignedDoctor()
+    {
+        return $this->belongsTo(User::class, 'assigned_doctor_id');
+    }
+
+    public function assignedRadiographer()
+    {
+        return $this->belongsTo(User::class, 'assigned_radiographer_id');
+    }
+
+    public function assignedRadiologist()
+    {
+        return $this->belongsTo(User::class, 'assigned_radiologist_id');
     }
 }

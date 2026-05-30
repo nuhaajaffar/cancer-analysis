@@ -28,6 +28,36 @@
         <label>Medical Notes</label>
         <textarea name="medical_notes" rows="4">{{ $patient->medical_notes }}</textarea>
 
+        <label>Assigned Doctor</label>
+        <select name="assigned_doctor_id">
+            <option value="">Not assigned</option>
+            @foreach($doctors as $doctor)
+                <option value="{{ $doctor->id }}" {{ $patient->assigned_doctor_id == $doctor->id ? 'selected' : '' }}>
+                    {{ $doctor->name }}
+                </option>
+            @endforeach
+        </select>
+
+        <label>Assigned Radiographer</label>
+        <select name="assigned_radiographer_id">
+            <option value="">Not assigned</option>
+            @foreach($radiographers as $radiographer)
+                <option value="{{ $radiographer->id }}" {{ $patient->assigned_radiographer_id == $radiographer->id ? 'selected' : '' }}>
+                    {{ $radiographer->name }}
+                </option>
+            @endforeach
+        </select>
+
+        <label>Assigned Radiologist</label>
+        <select name="assigned_radiologist_id">
+            <option value="">Not assigned</option>
+            @foreach($radiologists as $radiologist)
+                <option value="{{ $radiologist->id }}" {{ $patient->assigned_radiologist_id == $radiologist->id ? 'selected' : '' }}>
+                    {{ $radiologist->name }}
+                </option>
+            @endforeach
+        </select>
+
         <br><br>
 
         <button type="submit" class="btn">
