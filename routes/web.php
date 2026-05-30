@@ -42,6 +42,15 @@ Route::middleware(['role:admin,doctor,radiographer,radiologist'])->group(functio
 
     Route::post('/scans/{scanId}/analyse', [AIController::class, 'analyse'])
         ->name('scans.analyse');
+
+    Route::get('/appointments/{id}/edit', [AppointmentController::class, 'edit'])
+        ->name('appointments.edit');
+
+    Route::put('/appointments/{id}', [AppointmentController::class, 'update'])
+        ->name('appointments.update');
+
+    Route::patch('/appointments/{id}/cancel', [AppointmentController::class, 'cancel'])
+        ->name('appointments.cancel');
 });
 
 Route::middleware(['role:radiographer'])->group(function () {

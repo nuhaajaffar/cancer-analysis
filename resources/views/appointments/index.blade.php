@@ -19,7 +19,29 @@
                     <strong>Purpose:</strong> {{ $appointment->purpose }}
                     <br>
                     <strong>Status:</strong> {{ $appointment->status }}
+
+                    <br><br>
+
+                    <a href="{{ route('appointments.edit', $appointment->id) }}" class="btn">
+                        Edit
+                    </a>
+
+                    @if($appointment->status !== 'cancelled')
+                        <form
+                            action="{{ route('appointments.cancel', $appointment->id) }}"
+                            method="POST"
+                            style="display:inline;">
+
+                            @csrf
+                            @method('PATCH')
+
+                            <button type="submit" class="btn btn-danger">
+                                Cancel
+                            </button>
+                        </form>
+                    @endif
                 </li>
+
                 <br>
 
             @endforeach
@@ -30,5 +52,5 @@
         <p>No appointments found.</p>
 
     @endif
-    
+
 @endsection
