@@ -68,7 +68,16 @@
             @endphp
 
             <a href="{{ route('dashboard') }}">Dashboard</a>
-            <a href="{{ route('notifications.index') }}">Notifications</a>
+
+            @php
+                $unreadNotifications = \App\Models\AppNotification::where('user_id', session('user_id'))
+                    ->where('is_read', false)
+                    ->count();
+            @endphp
+
+            <a href="{{ route('notifications.index') }}">
+                Notifications ({{ $unreadNotifications }})
+            </a>
 
             @if($isStaff)
                 <a href="{{ route('patients.index') }}">Patients</a>

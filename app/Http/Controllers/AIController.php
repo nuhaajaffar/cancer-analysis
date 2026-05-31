@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\PatientScan;
 use App\Models\PatientReport;
+use App\Models\AppNotification;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 
@@ -105,6 +106,15 @@ class AIController extends Controller
             'report_path' => $relativeReportPath,
             'status' => 'ai_generated',
         ]);
+
+        if ($scan->patient->assigned_doctor_id) {
+            AppNotification::create([
+                'user_id' => $scan->patient->assigned_doctor_id,
+                'title' => 'AI Report Generated',
+                'message' => 'An AI-generated report is available for ' . $scan->patient->name . '.',
+                'type' => 'ai_report_generated',
+            ]);
+        }
 
         return back()->with('success', 'AI analysis and report generation completed.');
     }

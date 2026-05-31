@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\User;
 use App\Models\PatientReport;
+use App\Models\AppNotification;
 use Illuminate\Http\Request;
 
 class ReportController extends Controller
@@ -28,12 +29,21 @@ class ReportController extends Controller
             'public'
         );
 
-        PatientReport::create([
+        $report = PatientReport::create([
             'patient_id' => $patient->id,
             'uploaded_by' => session('user_id'),
             'report_path' => $path,
             'status' => 'uploaded',
         ]);
+
+        if ($patient->assigned_doctor_id) {
+            AppNotification::create([
+                'user_id' => $patient->assigned_doctor_id,
+                'title' => 'New Report Uploaded',
+                'message' => 'A new report has been uploaded for ' . $patient->name . '.',
+                'type' => 'report_uploaded',
+            ]);
+        }
 
         return redirect()
             ->route('patients.show', $patient->id)

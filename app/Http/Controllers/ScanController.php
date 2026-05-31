@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\User;
 use App\Models\PatientScan;
+use App\Models\AppNotification;
 use Illuminate\Http\Request;
 
 class ScanController extends Controller
@@ -28,11 +29,20 @@ class ScanController extends Controller
             'public'
         );
 
-        PatientScan::create([
+        $scan = PatientScan::create([
             'patient_id' => $patient->id,
             'uploaded_by' => session('user_id'),
             'file_path' => $path,
         ]);
+
+        if ($patient->assigned_radiologist_id) {
+            AppNotification::create([
+                'user_id' => $patient->assigned_radiologist_id,
+                'title' => 'New Scan Uploaded',
+                'message' => 'A new scan has been uploaded for ' . $patient->name . '.',
+                'type' => 'scan_uploaded',
+            ]);
+        }
 
         return redirect()
             ->route('patients.show', $patient->id)
