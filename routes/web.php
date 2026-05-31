@@ -60,6 +60,12 @@ Route::middleware(['role:admin,doctor,radiographer,radiologist'])->group(functio
 
     Route::put('/patients/{id}', [PatientController::class, 'update'])
         ->name('patients.update');
+        
+    Route::get('/reports/{id}/download', [ReportController::class, 'download'])
+        ->name('reports.download');
+
+    Route::delete('/reports/{id}', [ReportController::class, 'destroy'])
+        ->name('reports.destroy');
 });
 
 Route::middleware(['role:admin,doctor,radiographer,radiologist,patient'])->group(function () {

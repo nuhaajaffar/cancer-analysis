@@ -6,6 +6,7 @@ use App\Models\User;
 use App\Models\PatientReport;
 use App\Models\AppNotification;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 
 class ReportController extends Controller
 {
@@ -48,5 +49,35 @@ class ReportController extends Controller
         return redirect()
             ->route('patients.show', $patient->id)
             ->with('success', 'Report uploaded successfully.');
+    }
+    
+    public function download($id)
+    {
+        $report = PatientReport::findOrFail($id);
+
+        if (!Storage::disk('public')->exists($report->report_path)) {
+            return back()->withErrors([
+                'report' => 'Report file not found.',
+            ]);
+        }
+
+        return Storage::disk('public')->download($report->report_path);
+    }
+
+    public function destroy($id)
+    {
+        $report = PatientReport::findOrFail($id);
+
+        if (!in_array(session('user_role'), ['admin', 'radiologist'])) {
+            abort(403);
+        }
+
+        if (Storage::disk('public')->exists($report->report_path)) {
+            Storage::disk('public')->delete($report->report_path);
+        }
+
+        $report->delete();
+
+        return back()->with('success', 'Report deleted successfully.');
     }
 }

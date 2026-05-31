@@ -106,17 +106,46 @@
         <ul>
             @foreach($patient->reports as $report)
                 <li>
+                    <strong>Report:</strong>
                     <a
                         href="{{ asset('storage/' . $report->report_path) }}"
                         target="_blank">
-                        View Report
+                        View
                     </a>
 
-                    - Status: {{ $report->status }}
+                    |
+                    <a href="{{ route('reports.download', $report->id) }}">
+                        Download
+                    </a>
 
                     <br>
 
+                    <strong>Status:</strong> {{ $report->status }}
+                    <br>
+
+                    <strong>Uploaded By:</strong>
+                    {{ $report->uploadedBy->name ?? 'Unknown User' }}
+                    <br>
+
+                    <strong>Uploaded At:</strong>
+                    {{ $report->created_at->format('Y-m-d H:i') }}
+
+                    @if(in_array(session('user_role'), ['admin', 'radiologist']))
+                        <form
+                            action="{{ route('reports.destroy', $report->id) }}"
+                            method="POST"
+                            style="display:inline;">
+                            @csrf
+                            @method('DELETE')
+
+                            <button type="submit" class="btn btn-danger">
+                                Delete Report
+                            </button>
+                        </form>
+                    @endif
+
                     @if(session('user_role') === 'doctor')
+                        <br>
                         <a href="{{ route('doctor-reviews.create', $report->id) }}" class="btn">
                             Add Doctor Review
                         </a>
@@ -128,9 +157,7 @@
                                 <li>
                                     <strong>Doctor:</strong>
                                     {{ $review->doctor->name ?? 'Unknown Doctor' }}
-
                                     <br>
-
                                     <strong>Review:</strong>
                                     {{ $review->review }}
                                 </li>
