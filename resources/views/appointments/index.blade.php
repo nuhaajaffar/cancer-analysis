@@ -28,7 +28,7 @@
     <br>
 
     @if($appointments->count())
-        <table style="width:100%; border-collapse: collapse;">
+        <table>
             <thead>
                 <tr>
                     <th>Patient</th>

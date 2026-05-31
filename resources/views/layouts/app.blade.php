@@ -50,6 +50,25 @@
             padding: 10px;
             margin: 8px 0 16px;
         }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 15px;
+        }
+
+        th, td {
+            border: 1px solid #ddd;
+            padding: 12px;
+            text-align: left;
+        }
+
+        th {
+            background: #f3f4f6;
+        }
+
+        tr:nth-child(even) {
+            background: #f9fafb;
+        }
     </style>
 </head>
 <body>

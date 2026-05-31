@@ -4,7 +4,7 @@
     <h2>Notifications</h2>
 
     @if($notifications->count())
-        <table style="width:100%; border-collapse: collapse;">
+        <table>
             <thead>
                 <tr>
                     <th>Title</th>

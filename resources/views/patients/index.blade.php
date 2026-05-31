@@ -20,7 +20,7 @@
     @if($patients->isEmpty())
         <p>No patients found.</p>
     @else
-        <table style="width:100%; border-collapse: collapse;">
+        <table>
             <thead>
                 <tr>
                     <th>Name</th>
