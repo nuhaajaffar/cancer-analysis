@@ -14,8 +14,24 @@ class PatientController extends Controller
         }
 
         $search = request('search');
+        $role = session('user_role');
+        $userId = session('user_id');
 
-        $patients = User::where('role', 'patient')
+        $patientsQuery = User::where('role', 'patient');
+
+        if ($role === 'doctor') {
+            $patientsQuery->where('assigned_doctor_id', $userId);
+        }
+
+        if ($role === 'radiographer') {
+            $patientsQuery->where('assigned_radiographer_id', $userId);
+        }
+
+        if ($role === 'radiologist') {
+            $patientsQuery->where('assigned_radiologist_id', $userId);
+        }
+
+        $patients = $patientsQuery
             ->when($search, function ($query, $search) {
                 $query->where(function ($q) use ($search) {
                     $q->where('name', 'like', "%{$search}%")

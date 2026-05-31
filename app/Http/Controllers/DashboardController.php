@@ -17,15 +17,32 @@ class DashboardController extends Controller
         }
 
         $role = session('user_role');
+        $userId = session('user_id');
+
+        $patientQuery = User::where('role', 'patient');
+
+        if ($role === 'doctor') {
+            $patientQuery->where('assigned_doctor_id', $userId);
+        }
+
+        if ($role === 'radiographer') {
+            $patientQuery->where('assigned_radiographer_id', $userId);
+        }
+
+        if ($role === 'radiologist') {
+            $patientQuery->where('assigned_radiologist_id', $userId);
+        }
+
+        $visiblePatientIds = $patientQuery->pluck('id');
 
         $stats = [
-            'totalPatients' => User::where('role', 'patient')->count(),
-            'totalScans' => PatientScan::count(),
-            'totalReports' => PatientReport::count(),
-            'totalAppointments' => Appointment::count(),
-            'pendingAI' => PatientScan::where('ai_status', 'pending')->count(),
-            'completedAI' => PatientScan::where('ai_status', 'completed')->count(),
-            'failedAI' => PatientScan::where('ai_status', 'failed')->count(),
+            'totalPatients' => $visiblePatientIds->count(),
+            'totalScans' => PatientScan::whereIn('patient_id', $visiblePatientIds)->count(),
+            'totalReports' => PatientReport::whereIn('patient_id', $visiblePatientIds)->count(),
+            'totalAppointments' => Appointment::whereIn('patient_id', $visiblePatientIds)->count(),
+            'pendingAI' => PatientScan::whereIn('patient_id', $visiblePatientIds)->where('ai_status', 'pending')->count(),
+            'completedAI' => PatientScan::whereIn('patient_id', $visiblePatientIds)->where('ai_status', 'completed')->count(),
+            'failedAI' => PatientScan::whereIn('patient_id', $visiblePatientIds)->where('ai_status', 'failed')->count(),
         ];
 
         if ($role === 'patient') {
