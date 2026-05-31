@@ -54,12 +54,34 @@ class PatientController extends Controller
                 'reports.reviews.doctor',
                 'assignedDoctor',
                 'assignedRadiographer',
-                'assignedRadiologist',
+                'assignedRadiologist'
             ])
             ->where('role', 'patient')
             ->findOrFail($id);
 
-        return view('patients.show', compact('patient'));
+        $role = session('user_role');
+        $userId = session('user_id');
+
+        if (
+            $role === 'doctor' &&
+            $patient->assigned_doctor_id != $userId
+        ) {
+            abort(403);
+        }
+
+        if (
+            $role === 'radiographer' &&
+            $patient->assigned_radiographer_id != $userId
+        ) {
+            abort(403);
+        }
+
+        if (
+            $role === 'radiologist' &&
+            $patient->assigned_radiologist_id != $userId
+        ) {
+            abort(403);
+        }
     }
 
     public function myRecords()
