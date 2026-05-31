@@ -6,6 +6,7 @@ namespace App\Models;
 use App\Models\PatientScan;
 use App\Models\PatientReport;
 use App\Models\Appointment;
+use App\Models\AppNotification;
 use Database\Factories\UserFactory;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
@@ -92,5 +93,10 @@ class User extends Authenticatable
     public function assignedRadiologist()
     {
         return $this->belongsTo(User::class, 'assigned_radiologist_id');
+    }
+
+    public function notifications()
+    {
+        return $this->hasMany(AppNotification::class);
     }
 }

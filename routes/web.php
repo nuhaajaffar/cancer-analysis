@@ -8,6 +8,7 @@ use App\Http\Controllers\ReportController;
 use App\Http\Controllers\DoctorReviewController;
 use App\Http\Controllers\AppointmentController;
 use App\Http\Controllers\AIController;
+use App\Http\Controllers\NotificationController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
@@ -16,8 +17,10 @@ Route::get('/', function () {
 
 Route::get('/login', [AuthController::class, 'showLogin'])
     ->name('login');
+
 Route::post('/login', [AuthController::class, 'login'])
     ->name('login.submit');
+
 Route::post('/logout', [AuthController::class, 'logout'])
     ->name('logout');
 
@@ -57,6 +60,14 @@ Route::middleware(['role:admin,doctor,radiographer,radiologist'])->group(functio
 
     Route::put('/patients/{id}', [PatientController::class, 'update'])
         ->name('patients.update');
+});
+
+Route::middleware(['role:admin,doctor,radiographer,radiologist,patient'])->group(function () {
+    Route::get('/notifications', [NotificationController::class, 'index'])
+        ->name('notifications.index');
+
+    Route::patch('/notifications/{id}/read', [NotificationController::class, 'markAsRead'])
+        ->name('notifications.read');
 });
 
 Route::middleware(['role:radiographer'])->group(function () {

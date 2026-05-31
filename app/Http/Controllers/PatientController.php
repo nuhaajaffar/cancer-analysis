@@ -62,26 +62,19 @@ class PatientController extends Controller
         $role = session('user_role');
         $userId = session('user_id');
 
-        if (
-            $role === 'doctor' &&
-            $patient->assigned_doctor_id != $userId
-        ) {
+        if ($role === 'doctor' && $patient->assigned_doctor_id != $userId) {
             abort(403);
         }
 
-        if (
-            $role === 'radiographer' &&
-            $patient->assigned_radiographer_id != $userId
-        ) {
+        if ($role === 'radiographer' && $patient->assigned_radiographer_id != $userId) {
             abort(403);
         }
 
-        if (
-            $role === 'radiologist' &&
-            $patient->assigned_radiologist_id != $userId
-        ) {
+        if ($role === 'radiologist' && $patient->assigned_radiologist_id != $userId) {
             abort(403);
         }
+
+        return view('patients.show', compact('patient'));
     }
 
     public function myRecords()

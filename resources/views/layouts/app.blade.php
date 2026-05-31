@@ -68,6 +68,7 @@
             @endphp
 
             <a href="{{ route('dashboard') }}">Dashboard</a>
+            <a href="{{ route('notifications.index') }}">Notifications</a>
 
             @if($isStaff)
                 <a href="{{ route('patients.index') }}">Patients</a>

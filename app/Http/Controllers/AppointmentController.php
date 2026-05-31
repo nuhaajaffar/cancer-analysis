@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Appointment;
 use App\Models\User;
+use App\Models\AppNotification;
 use Illuminate\Http\Request;
 
 class AppointmentController extends Controller
@@ -38,12 +39,19 @@ class AppointmentController extends Controller
 
         $patient = User::where('role', 'patient')->findOrFail($patientId);
 
-        Appointment::create([
+        $appointment = Appointment::create([
             'patient_id' => $patient->id,
             'staff_id' => session('user_id'),
             'appointment_date' => $request->appointment_date,
             'purpose' => $request->purpose,
             'status' => 'scheduled',
+        ]);
+
+        AppNotification::create([
+            'user_id' => $patient->id,
+            'title' => 'New Appointment Scheduled',
+            'message' => 'An appointment has been scheduled for you.',
+            'type' => 'appointment',
         ]);
 
         return redirect()

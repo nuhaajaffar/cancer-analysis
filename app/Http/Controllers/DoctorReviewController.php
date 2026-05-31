@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\PatientReport;
 use App\Models\DoctorReview;
+use App\Models\AppNotification;
 use Illuminate\Http\Request;
 
 class DoctorReviewController extends Controller
@@ -27,6 +28,13 @@ class DoctorReviewController extends Controller
             'patient_report_id' => $report->id,
             'doctor_id' => session('user_id'),
             'review' => $request->review,
+        ]);
+
+        AppNotification::create([
+            'user_id' => $report->patient_id,
+            'title' => 'Doctor Review Added',
+            'message' => 'A doctor has added a review to your report.',
+            'type' => 'doctor_review',
         ]);
 
         $report->update([
