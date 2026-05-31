@@ -17,7 +17,8 @@ class PatientController extends Controller
         $role = session('user_role');
         $userId = session('user_id');
 
-        $patientsQuery = User::where('role', 'patient');
+        $patientsQuery = User::with('assignedDoctor')
+            ->where('role', 'patient');
 
         if ($role === 'doctor') {
             $patientsQuery->where('assigned_doctor_id', $userId);

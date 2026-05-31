@@ -20,15 +20,30 @@
     @if($patients->isEmpty())
         <p>No patients found.</p>
     @else
-        <ul>
-            @foreach($patients as $patient)
-                <li>
-                    <a href="{{ route('patients.show', $patient->id) }}">
-                        {{ $patient->name }}
-                    </a>
-                    - {{ $patient->email }}
-                </li>
-            @endforeach
-        </ul>
+        <table style="width:100%; border-collapse: collapse;">
+            <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>Email</th>
+                    <th>Assigned Doctor</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+
+            <tbody>
+                @foreach($patients as $patient)
+                    <tr>
+                        <td>{{ $patient->name }}</td>
+                        <td>{{ $patient->email }}</td>
+                        <td>{{ $patient->assignedDoctor->name ?? 'Not assigned' }}</td>
+                        <td>
+                            <a href="{{ route('patients.show', $patient->id) }}" class="btn">
+                                View
+                            </a>
+                        </td>
+                    </tr>
+                @endforeach
+            </tbody>
+        </table>
     @endif
 @endsection
