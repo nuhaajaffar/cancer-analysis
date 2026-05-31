@@ -28,50 +28,51 @@
     <br>
 
     @if($appointments->count())
+        <table style="width:100%; border-collapse: collapse;">
+            <thead>
+                <tr>
+                    <th>Patient</th>
+                    <th>Staff</th>
+                    <th>Date</th>
+                    <th>Purpose</th>
+                    <th>Status</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
 
-        <ul>
-            @foreach($appointments as $appointment)
-                <li>
-                    <strong>Patient:</strong> {{ $appointment->patient->name }}
-                    <br>
-                    <strong>Staff:</strong> {{ $appointment->staff->name }}
-                    <br>
-                    <strong>Date:</strong> {{ $appointment->appointment_date }}
-                    <br>
-                    <strong>Purpose:</strong> {{ $appointment->purpose }}
-                    <br>
-                    <strong>Status:</strong> {{ $appointment->status }}
+            <tbody>
+                @foreach($appointments as $appointment)
+                    <tr>
+                        <td>{{ $appointment->patient->name }}</td>
+                        <td>{{ $appointment->staff->name }}</td>
+                        <td>{{ $appointment->appointment_date }}</td>
+                        <td>{{ $appointment->purpose }}</td>
+                        <td>{{ $appointment->status }}</td>
+                        <td>
+                            <a href="{{ route('appointments.edit', $appointment->id) }}" class="btn">
+                                Edit
+                            </a>
 
-                    <br><br>
+                            @if($appointment->status !== 'cancelled')
+                                <form
+                                    action="{{ route('appointments.cancel', $appointment->id) }}"
+                                    method="POST"
+                                    style="display:inline;">
+                                    @csrf
+                                    @method('PATCH')
 
-                    <a href="{{ route('appointments.edit', $appointment->id) }}" class="btn">
-                        Edit
-                    </a>
-
-                    @if($appointment->status !== 'cancelled')
-                        <form
-                            action="{{ route('appointments.cancel', $appointment->id) }}"
-                            method="POST"
-                            style="display:inline;">
-
-                            @csrf
-                            @method('PATCH')
-
-                            <button type="submit" class="btn btn-danger">
-                                Cancel
-                            </button>
-                        </form>
-                    @endif
-                </li>
-
-                <br>
-            @endforeach
-        </ul>
-
+                                    <button type="submit" class="btn btn-danger">
+                                        Cancel
+                                    </button>
+                                </form>
+                            @endif
+                        </td>
+                    </tr>
+                @endforeach
+            </tbody>
+        </table>
     @else
-
         <p>No appointments found.</p>
-
     @endif
 
 @endsection
