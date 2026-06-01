@@ -54,7 +54,7 @@ class ScanController extends Controller
     {
         $scan = PatientScan::findOrFail($id);
 
-        if (!in_array(session('user_role'), ['admin', 'doctor', 'radiographer', 'radiologist', 'patient'])) {
+        if (!$this->canDownloadScan()) {
             abort(403);
         }
 
@@ -75,7 +75,7 @@ class ScanController extends Controller
     {
         $scan = PatientScan::findOrFail($id);
 
-        if (!in_array(session('user_role'), ['admin', 'radiographer'])) {
+        if (!$this->canDeleteScan()) {
             abort(403);
         }
 
@@ -86,5 +86,24 @@ class ScanController extends Controller
         $scan->delete();
 
         return back()->with('success', 'Scan deleted successfully.');
+    }
+
+    private function canDownloadScan()
+    {
+        return in_array(session('user_role'), [
+            'admin',
+            'doctor',
+            'radiographer',
+            'radiologist',
+            'patient',
+        ]);
+    }
+
+    private function canDeleteScan()
+    {
+        return in_array(session('user_role'), [
+            'admin',
+            'radiographer',
+        ]);
     }
 }

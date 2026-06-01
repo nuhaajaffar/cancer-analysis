@@ -55,7 +55,7 @@ class ReportController extends Controller
     {
         $report = PatientReport::findOrFail($id);
 
-        if (!in_array(session('user_role'), ['admin', 'doctor', 'radiologist', 'patient'])) {
+        if (!$this->canDownloadReport()) {
             abort(403);
         }
         
@@ -76,7 +76,7 @@ class ReportController extends Controller
     {
         $report = PatientReport::findOrFail($id);
 
-        if (!in_array(session('user_role'), ['admin', 'radiologist'])) {
+        if (!$this->canDeleteReport()) {
             abort(403);
         }
 
@@ -87,5 +87,23 @@ class ReportController extends Controller
         $report->delete();
 
         return back()->with('success', 'Report deleted successfully.');
+    }
+
+    private function canDownloadReport()
+    {
+        return in_array(session('user_role'), [
+            'admin',
+            'doctor',
+            'radiologist',
+            'patient',
+        ]);
+    }
+
+    private function canDeleteReport()
+    {
+        return in_array(session('user_role'), [
+            'admin',
+            'radiologist',
+        ]);
     }
 }
