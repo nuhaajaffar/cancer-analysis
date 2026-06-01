@@ -51,6 +51,18 @@ class DashboardController extends Controller
                 ->count(),
         ];
 
+        $appointmentStats = [
+            'scheduled' => Appointment::where('status', 'scheduled')->count(),
+            'completed' => Appointment::where('status', 'completed')->count(),
+            'cancelled' => Appointment::where('status', 'cancelled')->count(),
+        ];
+
+        $aiStats = [
+            'pending' => PatientScan::where('ai_status', 'pending')->count(),
+            'completed' => PatientScan::where('ai_status', 'completed')->count(),
+            'failed' => PatientScan::where('ai_status', 'failed')->count(),
+        ];
+
         $recentNotifications = AppNotification::where('user_id', $userId)
             ->latest()
             ->take(5)
@@ -91,11 +103,11 @@ class DashboardController extends Controller
         }
 
         return match ($role) {
-            'admin' => view('dashboard.admin', compact('stats', 'recentNotifications', 'recentAppointments', 'recentReports')),
-            'doctor' => view('dashboard.doctor', compact('stats', 'recentNotifications', 'recentAppointments', 'recentReports')),
-            'radiographer' => view('dashboard.radiographer', compact('stats', 'recentNotifications', 'recentAppointments', 'recentReports')),
-            'radiologist' => view('dashboard.radiologist', compact('stats', 'recentNotifications', 'recentAppointments', 'recentReports')),
-            'patient' => view('dashboard.patient', compact('stats', 'recentNotifications', 'recentAppointments', 'recentReports')),
+            'admin' => view('dashboard.admin', compact('stats', 'recentNotifications', 'recentAppointments', 'recentReports', 'appointmentStats', 'aiStats')),
+            'doctor' => view('dashboard.doctor', compact('stats', 'recentNotifications', 'recentAppointments', 'recentReports', 'appointmentStats', 'aiStats')),
+            'radiographer' => view('dashboard.radiographer', compact('stats', 'recentNotifications', 'recentAppointments', 'recentReports', 'appointmentStats', 'aiStats')),
+            'radiologist' => view('dashboard.radiologist', compact('stats', 'recentNotifications', 'recentAppointments', 'recentReports', 'appointmentStats', 'aiStats')),
+            'patient' => view('dashboard.patient', compact('stats', 'recentNotifications', 'recentAppointments', 'recentReports', 'appointmentStats', 'aiStats')),
             default => redirect()->route('login'),
         };
     }
