@@ -15,6 +15,7 @@
     <hr>
 
     <h3>Appointment Statistics</h3>
+    <canvas id="appointmentChart"></canvas>
 
     <ul>
         <li>Scheduled: {{ $appointmentStats['scheduled'] }}</li>
@@ -25,6 +26,7 @@
     <hr>
 
     <h3>AI Analysis Statistics</h3>
+    <canvas id="aiChart"></canvas>
 
     <ul>
         <li>Pending: {{ $aiStats['pending'] }}</li>
@@ -86,4 +88,42 @@
     @else
         <p>No recent reports.</p>
     @endif
+
+    @push('scripts')
+    <script>
+    const appointmentCtx = document.getElementById('appointmentChart');
+
+    new Chart(appointmentCtx, {
+        type: 'pie',
+        data: {
+            labels: ['Scheduled', 'Completed', 'Cancelled'],
+            datasets: [{
+                data: [
+                    {{ $appointmentStats['scheduled'] }},
+                    {{ $appointmentStats['completed'] }},
+                    {{ $appointmentStats['cancelled'] }}
+                ]
+            }]
+        }
+    });
+
+    const aiCtx = document.getElementById('aiChart');
+
+    new Chart(aiCtx, {
+        type: 'bar',
+        data: {
+            labels: ['Pending', 'Completed', 'Failed'],
+            datasets: [{
+                label: 'AI Analyses',
+                data: [
+                    {{ $aiStats['pending'] }},
+                    {{ $aiStats['completed'] }},
+                    {{ $aiStats['failed'] }}
+                ]
+            }]
+        }
+    });
+    </script>
+    @endpush
+    
 @endsection

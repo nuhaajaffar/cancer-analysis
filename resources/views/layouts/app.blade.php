@@ -130,9 +130,11 @@
 
     <div class="container">
         @include('components.alerts')
-
         @yield('content')
     </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    @stack('scripts')    
     
 </body>
 </html>
