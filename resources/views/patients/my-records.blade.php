@@ -17,7 +17,27 @@
                     <a href="{{ asset('storage/' . $scan->file_path) }}" target="_blank">
                         View Scan
                     </a>
+                    |
+                    <a href="{{ route('scans.download', $scan->id) }}">
+                        Download Scan
+                    </a>
+
+                    <br>
+
+                    <strong>AI Status:</strong> {{ $scan->ai_status }}
+
+                    @if($scan->ai_prediction)
+                        <br>
+                        <strong>Prediction:</strong> {{ $scan->ai_prediction }}
+                        <br>
+                        <strong>Confidence:</strong> {{ $scan->ai_confidence }}%
+                    @endif
+
+                    <br>
+                    <strong>Uploaded At:</strong>
+                    {{ $scan->created_at->format('Y-m-d H:i') }}
                 </li>
+                <br>
             @endforeach
         </ul>
     @else
@@ -35,8 +55,17 @@
                     <a href="{{ asset('storage/' . $report->report_path) }}" target="_blank">
                         View Report
                     </a>
+                    |
+                    <a href="{{ route('reports.download', $report->id) }}">
+                        Download Report
+                    </a>
 
-                    - Status: {{ $report->status }}
+                    <br>
+
+                    <strong>Status:</strong> {{ $report->status }}
+                    <br>
+                    <strong>Uploaded At:</strong>
+                    {{ $report->created_at->format('Y-m-d H:i') }}
 
                     @if($report->reviews->count())
                         <ul>
@@ -54,11 +83,14 @@
                         <p>No doctor review yet.</p>
                     @endif
                 </li>
+                <br>
             @endforeach
         </ul>
     @else
         <p>No reports uploaded yet.</p>
     @endif
+
+    <hr>
 
     <h3>My Appointments</h3>
 
@@ -68,16 +100,17 @@
                 <li>
                     <strong>Date:</strong> {{ $appointment->appointment_date }}
                     <br>
-                    <strong>With:</strong> {{ $appointment->staff->name ?? 'Unknown Staff' }}
+                    <strong>With:</strong>
+                    {{ $appointment->staff->name ?? 'Unknown Staff' }}
                     <br>
                     <strong>Purpose:</strong> {{ $appointment->purpose }}
                     <br>
                     <strong>Status:</strong> {{ $appointment->status }}
                 </li>
+                <br>
             @endforeach
         </ul>
     @else
         <p>No appointments scheduled.</p>
     @endif
-    
 @endsection
