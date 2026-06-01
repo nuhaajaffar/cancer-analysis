@@ -103,6 +103,10 @@
                 <a href="{{ route('appointments.index') }}">Appointments</a>
             @endif
 
+            @if(session('user_role') === 'admin')
+                <a href="{{ route('audit-logs.index') }}">Audit Logs</a>
+            @endif
+            
             @if(session('user_role') === 'patient')
                 <a href="{{ route('patients.my-records') }}">My Records</a>
             @endif

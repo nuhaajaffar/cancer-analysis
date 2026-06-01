@@ -9,6 +9,7 @@ use App\Http\Controllers\DoctorReviewController;
 use App\Http\Controllers\AppointmentController;
 use App\Http\Controllers\AIController;
 use App\Http\Controllers\NotificationController;
+use App\Http\Controllers\AuditLogController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
@@ -109,4 +110,9 @@ Route::middleware(['role:doctor'])->group(function () {
 Route::middleware(['role:patient'])->group(function () {
     Route::get('/my-records', [PatientController::class, 'myRecords'])
         ->name('patients.my-records');
+});
+
+Route::middleware(['role:admin'])->group(function () {
+    Route::get('/audit-logs', [AuditLogController::class, 'index'])
+        ->name('audit-logs.index');
 });
