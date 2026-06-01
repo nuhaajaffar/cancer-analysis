@@ -58,6 +58,10 @@ class ReportController extends Controller
         if (!in_array(session('user_role'), ['admin', 'doctor', 'radiologist', 'patient'])) {
             abort(403);
         }
+        
+        if (session('user_role') === 'patient' && $report->patient_id != session('user_id')) {
+            abort(403);
+        }
 
         if (!Storage::disk('public')->exists($report->report_path)) {
             return back()->withErrors([

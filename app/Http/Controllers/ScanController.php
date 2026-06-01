@@ -58,6 +58,10 @@ class ScanController extends Controller
             abort(403);
         }
 
+        if (session('user_role') === 'patient' && $scan->patient_id != session('user_id')) {
+            abort(403);
+        }
+
         if (!Storage::disk('public')->exists($scan->file_path)) {
             return back()->withErrors([
                 'scan' => 'Scan file not found.',
