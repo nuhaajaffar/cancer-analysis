@@ -55,6 +55,10 @@ class ReportController extends Controller
     {
         $report = PatientReport::findOrFail($id);
 
+        if (!in_array(session('user_role'), ['admin', 'doctor', 'radiologist', 'patient'])) {
+            abort(403);
+        }
+
         if (!Storage::disk('public')->exists($report->report_path)) {
             return back()->withErrors([
                 'report' => 'Report file not found.',

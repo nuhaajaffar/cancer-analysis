@@ -54,6 +54,10 @@ class ScanController extends Controller
     {
         $scan = PatientScan::findOrFail($id);
 
+        if (!in_array(session('user_role'), ['admin', 'doctor', 'radiographer', 'radiologist', 'patient'])) {
+            abort(403);
+        }
+
         if (!Storage::disk('public')->exists($scan->file_path)) {
             return back()->withErrors([
                 'scan' => 'Scan file not found.',
