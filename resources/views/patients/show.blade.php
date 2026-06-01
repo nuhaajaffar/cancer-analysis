@@ -88,8 +88,12 @@
 
                 @if(in_array(session('user_role'), ['admin', 'doctor', 'radiologist']))
                     @if($scan->ai_status !== 'completed')
-                        <form action="{{ route('scans.analyse', $scan->id) }}" method="POST" style="margin-top: 10px;">
+                        <form
+                            action="{{ route('scans.analyse', $scan->id) }}"
+                            method="POST"
+                            style="display:inline;">
                             @csrf
+                            
                             <button type="submit" class="btn">
                                 Run AI Analysis
                             </button>
@@ -103,7 +107,8 @@
                     <form
                         action="{{ route('scans.destroy', $scan->id) }}"
                         method="POST"
-                        style="display:inline;">
+                        style="display:inline;"
+                        onsubmit="return confirm('Are you sure you want to delete this scan?');">
                         @csrf
                         @method('DELETE')
 
@@ -161,7 +166,8 @@
                         <form
                             action="{{ route('reports.destroy', $report->id) }}"
                             method="POST"
-                            style="display:inline;">
+                            style="display:inline;"
+                            onsubmit="return confirm('Are you sure you want to delete this report?');">
                             @csrf
                             @method('DELETE')
 
