@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\PatientReport;
 use App\Models\DoctorReview;
 use App\Models\AppNotification;
+use App\Models\AuditLog;
 use Illuminate\Http\Request;
 
 class DoctorReviewController extends Controller
@@ -24,11 +25,19 @@ class DoctorReviewController extends Controller
 
         $report = PatientReport::findOrFail($reportId);
 
-        DoctorReview::create([
+        $review = DoctorReview::create([
             'patient_report_id' => $report->id,
             'doctor_id' => session('user_id'),
             'review' => $request->review,
         ]);
+
+        AuditLog::create([
+            'user_id' => session('user_id'),
+            'action' => 'Added doctor review',
+            'target_type' => 'DoctorReview',
+            'target_id' => $review->id,
+            'description' => 'Added a doctor review for report #' . $report->id,
+        ]);        
 
         AppNotification::create([
             'user_id' => $report->patient_id,

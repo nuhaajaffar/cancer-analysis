@@ -2,8 +2,9 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
 use App\Models\User;
+use App\Models\AuditLog;
+use Illuminate\Http\Request;
 
 class PatientController extends Controller
 {
@@ -136,6 +137,14 @@ class PatientController extends Controller
             'assigned_radiographer_id',
             'assigned_radiologist_id',
         ]));
+
+        AuditLog::create([
+            'user_id' => session('user_id'),
+            'action' => 'Updated patient profile',
+            'target_type' => 'User',
+            'target_id' => $patient->id,
+            'description' => 'Updated profile for patient ' . $patient->name,
+        ]);
 
         return redirect()
             ->route('patients.show', $patient->id)

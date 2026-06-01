@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\User;
 use App\Models\PatientScan;
 use App\Models\AppNotification;
+use App\Models\AuditLog;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 
@@ -34,6 +35,14 @@ class ScanController extends Controller
             'patient_id' => $patient->id,
             'uploaded_by' => session('user_id'),
             'file_path' => $path,
+        ]);
+
+        AuditLog::create([
+            'user_id' => session('user_id'),
+            'action' => 'Uploaded scan',
+            'target_type' => 'PatientScan',
+            'target_id' => $scan->id,
+            'description' => 'Uploaded a scan for patient ' . $patient->name,
         ]);
 
         if ($patient->assigned_radiologist_id) {
@@ -82,6 +91,14 @@ class ScanController extends Controller
         if (Storage::disk('public')->exists($scan->file_path)) {
             Storage::disk('public')->delete($scan->file_path);
         }
+
+        AuditLog::create([
+            'user_id' => session('user_id'),
+            'action' => 'Deleted scan',
+            'target_type' => 'PatientScan',
+            'target_id' => $scan->id,
+            'description' => 'Deleted a scan record.',
+        ]);
 
         $scan->delete();
 

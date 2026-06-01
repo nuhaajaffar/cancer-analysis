@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\User;
 use App\Models\PatientReport;
 use App\Models\AppNotification;
+use App\Models\AuditLog;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 
@@ -35,6 +36,14 @@ class ReportController extends Controller
             'uploaded_by' => session('user_id'),
             'report_path' => $path,
             'status' => 'uploaded',
+        ]);
+
+        AuditLog::create([
+            'user_id' => session('user_id'),
+            'action' => 'Uploaded report',
+            'target_type' => 'PatientReport',
+            'target_id' => $report->id,
+            'description' => 'Uploaded a report for patient ' . $patient->name,
         ]);
 
         if ($patient->assigned_doctor_id) {
@@ -83,6 +92,14 @@ class ReportController extends Controller
         if (Storage::disk('public')->exists($report->report_path)) {
             Storage::disk('public')->delete($report->report_path);
         }
+
+        AuditLog::create([
+            'user_id' => session('user_id'),
+            'action' => 'Deleted report',
+            'target_type' => 'PatientReport',
+            'target_id' => $report->id,
+            'description' => 'Deleted a report record.',
+        ]);
 
         $report->delete();
 
