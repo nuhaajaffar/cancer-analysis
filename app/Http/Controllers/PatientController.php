@@ -51,7 +51,7 @@ class PatientController extends Controller
         }
 
         $patient = User::with([
-                'scans',
+                'scans.uploadedBy',
                 'reports.reviews.doctor',
                 'reports.uploadedBy',
                 'assignedDoctor',

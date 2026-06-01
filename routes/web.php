@@ -66,6 +66,12 @@ Route::middleware(['role:admin,doctor,radiographer,radiologist'])->group(functio
 
     Route::delete('/reports/{id}', [ReportController::class, 'destroy'])
         ->name('reports.destroy');
+
+    Route::get('/scans/{id}/download', [ScanController::class, 'download'])
+        ->name('scans.download');
+
+    Route::delete('/scans/{id}', [ScanController::class, 'destroy'])
+        ->name('scans.destroy');
 });
 
 Route::middleware(['role:admin,doctor,radiographer,radiologist,patient'])->group(function () {

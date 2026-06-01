@@ -55,12 +55,25 @@
         @foreach($patient->scans as $scan)
 
             <li>
-                <a
-                    href="{{ asset('storage/' . $scan->file_path) }}"
-                    target="_blank">
-
-                    View Scan
+                <strong>Scan:</strong>
+                <a href="{{ asset('storage/' . $scan->file_path) }}" target="_blank">
+                    View
                 </a>
+
+                |
+                <a href="{{ route('scans.download', $scan->id) }}">
+                    Download
+                </a>
+
+                <br>
+
+                <strong>Uploaded By:</strong>
+                {{ $scan->uploadedBy->name ?? 'Unknown User' }}
+
+                <br>
+
+                <strong>Uploaded At:</strong>
+                {{ $scan->created_at->format('Y-m-d H:i') }}
 
                 <br>
 
@@ -84,6 +97,20 @@
                     @else
                         <p>AI analysis already completed.</p>
                     @endif
+                @endif
+
+                @if(in_array(session('user_role'), ['admin', 'radiographer']))
+                    <form
+                        action="{{ route('scans.destroy', $scan->id) }}"
+                        method="POST"
+                        style="display:inline;">
+                        @csrf
+                        @method('DELETE')
+
+                        <button type="submit" class="btn btn-danger">
+                            Delete Scan
+                        </button>
+                    </form>
                 @endif
             </li>
 

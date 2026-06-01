@@ -20,4 +20,9 @@ class PatientScan extends Model
     {
         return $this->belongsTo(User::class, 'patient_id');
     }
+
+    public function uploadedBy()
+    {
+        return $this->belongsTo(User::class, 'uploaded_by');
+    }
 }

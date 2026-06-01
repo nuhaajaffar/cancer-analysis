@@ -6,6 +6,7 @@ use App\Models\User;
 use App\Models\PatientScan;
 use App\Models\AppNotification;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 
 class ScanController extends Controller
 {
@@ -47,5 +48,35 @@ class ScanController extends Controller
         return redirect()
             ->route('patients.show', $patient->id)
             ->with('success', 'Scan uploaded successfully.');
+    }
+    
+    public function download($id)
+    {
+        $scan = PatientScan::findOrFail($id);
+
+        if (!Storage::disk('public')->exists($scan->file_path)) {
+            return back()->withErrors([
+                'scan' => 'Scan file not found.',
+            ]);
+        }
+
+        return Storage::disk('public')->download($scan->file_path);
+    }
+
+    public function destroy($id)
+    {
+        $scan = PatientScan::findOrFail($id);
+
+        if (!in_array(session('user_role'), ['admin', 'radiographer'])) {
+            abort(403);
+        }
+
+        if (Storage::disk('public')->exists($scan->file_path)) {
+            Storage::disk('public')->delete($scan->file_path);
+        }
+
+        $scan->delete();
+
+        return back()->with('success', 'Scan deleted successfully.');
     }
 }
