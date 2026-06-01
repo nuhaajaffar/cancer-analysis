@@ -3,6 +3,31 @@
 @section('content')
     <h2>Audit Logs</h2>
 
+    <form method="GET" action="{{ route('audit-logs.index') }}">
+        <input
+            type="text"
+            name="search"
+            value="{{ $search }}"
+            placeholder="Search action, description, target">
+
+        <select name="user_id">
+            <option value="">All Users</option>
+            @foreach($users as $user)
+                <option value="{{ $user->id }}" {{ $userId == $user->id ? 'selected' : '' }}>
+                    {{ $user->name }} ({{ $user->role }})
+                </option>
+            @endforeach
+        </select>
+
+        <input type="date" name="date" value="{{ $date }}">
+
+        <button type="submit" class="btn">Filter</button>
+
+        <a href="{{ route('audit-logs.index') }}" class="btn">Reset</a>
+    </form>
+
+    <br>
+
     @if($auditLogs->count())
         <table>
             <thead>
