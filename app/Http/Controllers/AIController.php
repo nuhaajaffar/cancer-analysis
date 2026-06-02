@@ -82,16 +82,22 @@ class AIController extends Controller
             ]);
         }
 
-        $reportCommand = 'python '
+        $reportCommand = 'py '
             . escapeshellarg($reportScript)
             . ' '
             . escapeshellarg($absoluteReportPath)
             . ' '
             . escapeshellarg($scan->patient->name)
             . ' '
+            . escapeshellarg($scan->id)
+            . ' '
             . escapeshellarg($result['prediction'])
             . ' '
-            . escapeshellarg($result['confidence']);
+            . escapeshellarg($result['confidence'])
+            . ' '
+            . escapeshellarg('ResNet18')
+            . ' '
+            . escapeshellarg('92.50');
 
         shell_exec($reportCommand);
 
