@@ -63,12 +63,25 @@ accuracy = correct / len(all_labels) * 100
 print("\nModel Evaluation Results")
 print("------------------------")
 print(f"Test Accuracy: {accuracy:.2f}%")
-print("\nClassification Report:")
-print(classification_report(
+report = classification_report(
     all_labels,
     all_predictions,
     target_names = class_names
-))
+)
+
+print("\nClassification Report:")
+print(report)
+
+report_path = OUTPUT_DIR / "evaluation_report.txt"
+
+with open(report_path, "w") as file:
+    file.write("Brain Tumor MRI Classification Evaluation\n")
+    file.write("-----------------------------------------\n")
+    file.write(f"Test Accuracy: {accuracy:.2f}%\n\n")
+    file.write("Classification Report:\n")
+    file.write(report)
+
+print(f"Evaluation report saved to: {report_path}")
 
 cm = confusion_matrix(all_labels, all_predictions)
 
