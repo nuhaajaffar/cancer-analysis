@@ -14,6 +14,9 @@ class PatientScan extends Model
         'ai_prediction',
         'ai_confidence',
         'ai_status',
+        'ai_model',
+        'model_accuracy',
+        'analysed_at',
     ];
 
     public function patient()

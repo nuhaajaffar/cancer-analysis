@@ -84,6 +84,14 @@
                     <strong>Prediction:</strong> {{ $scan->ai_prediction }}
                     <br>
                     <strong>Confidence:</strong> {{ $scan->ai_confidence }}%
+                    <br>
+                    <strong>Model:</strong> {{ $scan->ai_model ?? 'Not recorded' }}
+                    <br>
+                    <strong>Model Accuracy:</strong>
+                    {{ $scan->model_accuracy ? $scan->model_accuracy . '%' : 'Not recorded' }}
+                    <br>
+                    <strong>Analysed At:</strong>
+                    {{ $scan->analysed_at ?? 'Not recorded' }}
                 @endif
 
                 @if(in_array(session('user_role'), ['admin', 'doctor', 'radiologist']))

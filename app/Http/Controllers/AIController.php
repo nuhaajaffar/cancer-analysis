@@ -64,6 +64,9 @@ class AIController extends Controller
             'ai_prediction' => $result['prediction'],
             'ai_confidence' => $result['confidence'],
             'ai_status' => 'completed',
+            'ai_model' => 'ResNet18',
+            'model_accuracy' => 92.50,
+            'analysed_at' => now(),
         ]);
 
         $reportFileName = 'ai_report_' . $scan->id . '_' . Str::random(8) . '.pdf';
