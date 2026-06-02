@@ -1,59 +1,407 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# Cancer Analysis System
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+A full-stack healthcare management platform that integrates role-based clinical workflows with AI-assisted brain tumour MRI classification.
 
-## About Laravel
+The system enables healthcare professionals to manage patients, medical scans, radiology reports, appointments, notifications and audit logs within a secure environment. It also incorporates a deep learning model trained on MRI brain tumour images to provide automated scan analysis and report generation.
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+The project combines software engineering, database management, healthcare workflow design and machine learning into a single integrated application.
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+## Project Overview
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+The aim of this project is to develop a healthcare-focused cancer analysis platform that supports collaboration between doctors, radiographers, radiologists, administrators and patients while demonstrating practical AI integration within a medical environment.
 
-## Learning Laravel
+The system provides:
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework. You can also check out [Laravel Learn](https://laravel.com/learn), where you will be guided through building a modern Laravel application.
+* Patient record management
+* Medical scan uploads and storage
+* Radiology report management
+* Doctor review workflows
+* Appointment scheduling and tracking
+* Notification management
+* Audit logging and traceability
+* AI-assisted MRI scan analysis
+* Automated PDF report generation
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+The AI component uses a ResNet18 convolutional neural network trained on brain tumour MRI images to classify scans into four categories:
 
-## Laravel Sponsors
+* Glioma
+* Meningioma
+* Pituitary Tumour
+* No Tumour
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the [Laravel Partners program](https://partners.laravel.com).
+Prediction results, confidence scores and model metadata are automatically stored within the healthcare system and included in generated reports.
 
-### Premium Partners
+## Features
 
-- **[Vehikl](https://vehikl.com)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel)**
-- **[DevSquad](https://devsquad.com/hire-laravel-developers)**
-- **[Redberry](https://redberry.international/laravel-development)**
-- **[Active Logic](https://activelogic.com)**
+### Authentication and Security
 
-## Contributing
+* User authentication
+* Session management
+* Role-based access control (RBAC)
+* Route protection
+* File access restrictions
+* Audit logging
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+### Patient Management
 
-## Code of Conduct
+* Patient profile management
+* Medical information tracking
+* Assigned healthcare staff
+* Search and filtering functionality
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+### Scan Management
 
-## Security Vulnerabilities
+* Medical scan uploads
+* Scan downloads
+* Scan deletion controls
+* AI-assisted scan analysis
+* Scan history tracking
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+### Report Management
 
-## License
+* Radiology report uploads
+* Report downloads
+* Report deletion controls
+* Doctor review workflows
+* Report history management
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+### Appointment Management
+
+* Appointment creation
+* Appointment editing
+* Appointment cancellation
+* Appointment status tracking
+
+### Notifications
+
+* Scan upload notifications
+* Report upload notifications
+* User-specific notification dashboard
+
+### Audit Logging
+
+* Scan uploads
+* Report uploads
+* Report deletions
+* Scan deletions
+* Doctor review actions
+* Patient profile updates
+
+### Artificial Intelligence
+
+* Brain tumour MRI classification
+* ResNet18 deep learning model
+* Confidence score generation
+* Automated PDF report generation
+* Model metadata tracking
+* Evaluation reporting
+
+## Screenshots
+
+### Admin Dashboard
+
+[Insert Screenshot]
+
+### Patient Details Page
+
+[Insert Screenshot]
+
+### AI Analysis Results
+
+[Insert Screenshot]
+
+### Audit Logs
+
+[Insert Screenshot]
+
+### Generated PDF Report
+
+[Insert Screenshot]
+
+## User Roles
+
+The system supports five healthcare roles.
+
+### Admin
+
+* Full system access
+* Manage patients
+* Manage scans and reports
+* View audit logs
+* Monitor system activity
+
+### Doctor
+
+* View assigned patients
+* Create doctor reviews
+* Manage appointments
+* View AI analysis results
+
+### Radiographer
+
+* Upload medical scans
+* Manage scan records
+* View assigned patients
+
+### Radiologist
+
+* Upload radiology reports
+* Review patient scans
+* Manage report records
+
+### Patient
+
+* View personal records
+* View appointments
+* Download reports
+* Access AI analysis results
+
+## AI Model
+
+The AI module performs automated brain tumour MRI classification.
+
+### Model Architecture
+
+* Architecture: ResNet18
+* Framework: PyTorch
+* Input Size: 224 × 224 RGB Images
+
+### Output Classes
+
+* Glioma
+* Meningioma
+* Pituitary Tumour
+* No Tumour
+
+### Stored Analysis Metadata
+
+Each analysis stores:
+
+* Predicted class
+* Confidence score
+* Model name
+* Model evaluation accuracy
+* Analysis timestamp
+
+## Dataset
+
+The model was trained using the Brain Tumor MRI Dataset from Kaggle.
+
+Dataset Source:
+
+https://www.kaggle.com/datasets/masoudnickparvar/brain-tumor-mri-dataset
+
+### Dataset Classes
+
+* Glioma
+* Meningioma
+* Pituitary Tumour
+* No Tumour
+
+### Dataset Characteristics
+
+* MRI brain scans
+* JPEG image format
+* Pre-organised training and testing sets
+* Multi-class classification problem
+
+## System Architecture
+
+```text
+MRI Scan Upload
+        │
+        ▼
+Laravel Application
+        │
+        ▼
+Python AI Module
+        │
+        ▼
+ResNet18 Model
+        │
+        ▼
+Prediction + Confidence
+        │
+        ▼
+Database Storage
+        │
+        ▼
+PDF Report Generation
+```
+
+## Project Structure
+
+```text
+cancer-analysis/
+│
+├── app/
+├── database/
+├── resources/
+├── routes/
+├── storage/
+│
+├── ai_int/
+│   ├── dataset/
+│   ├── model/
+│   ├── evaluation/
+│   ├── train_model.py
+│   ├── evaluate_model.py
+│   ├── analyse_scan.py
+│   └── generate_report.py
+│
+└── README.md
+```
+
+## Tech Stack
+
+### Backend
+
+* Laravel 12
+* PHP 8.2
+* MySQL
+
+### Frontend
+
+* Blade Templates
+* HTML
+* CSS
+* JavaScript
+
+### Artificial Intelligence
+
+* Python 3
+* PyTorch
+* TorchVision
+* Pillow
+* Scikit-learn
+* Matplotlib
+
+### Reporting
+
+* ReportLab
+
+## Demo Accounts
+
+| Role         | Email                                                       | Password    |
+| ------------ | ----------------------------------------------------------- | ----------- |
+| Admin        | [admin@example.com](mailto:admin@example.com)               | password123 |
+| Doctor       | [doctor@example.com](mailto:doctor@example.com)             | password123 |
+| Radiographer | [radiographer@example.com](mailto:radiographer@example.com) | password123 |
+| Radiologist  | [radiologist@example.com](mailto:radiologist@example.com)   | password123 |
+| Patient      | [patient@example.com](mailto:patient@example.com)           | password123 |
+
+## Setup Instructions
+
+### Clone Repository
+
+```bash
+git clone <repository-url>
+cd cancer-analysis
+```
+
+### Install Dependencies
+
+```bash
+composer install
+npm install
+```
+
+### Configure Environment
+
+```bash
+cp .env.example .env
+php artisan key:generate
+```
+
+### Database Setup
+
+```bash
+php artisan migrate --seed
+```
+
+### Start Application
+
+```bash
+php artisan serve
+```
+
+### Train AI Model
+
+```bash
+py ai_int/train_model.py
+```
+
+### Evaluate AI Model
+
+```bash
+py ai_int/evaluate_model.py
+```
+
+## Evaluation Results
+
+### Overall Performance
+
+* Test Accuracy: 92.50%
+
+### Class Performance
+
+| Class      | Precision | Recall | F1-Score |
+| ---------- | --------- | ------ | -------- |
+| Glioma     | 0.94      | 0.79   | 0.86     |
+| Meningioma | 0.86      | 0.94   | 0.89     |
+| No Tumour  | 0.95      | 0.98   | 0.97     |
+| Pituitary  | 0.96      | 0.99   | 0.98     |
+
+### Generated Evaluation Files
+
+* Confusion Matrix
+* Classification Report
+* Evaluation Summary
+
+## Output Files
+
+### Trained Model
+
+```text
+ai_int/model/resnet18_brain_tumor.pth
+```
+
+### Evaluation Results
+
+```text
+ai_int/evaluation/
+├── confusion_matrix.png
+└── evaluation_report.txt
+```
+
+### Generated Reports
+
+```text
+storage/app/public/ai_reports/
+```
+
+## Limitations
+
+* The AI model was trained using publicly available brain MRI datasets.
+* The current model supports only brain tumour classification.
+* The system currently accepts image-based MRI scans rather than DICOM files.
+* The AI module is intended as a decision-support prototype and not a clinical diagnostic tool.
+* Model performance may vary when applied to different datasets or clinical environments.
+* Real-world deployment would require extensive validation, regulatory approval and specialist oversight.
+
+## Future Improvements
+
+* Vision Transformer (ViT) implementation
+* Explainable AI using Grad-CAM
+* DICOM image support
+* Multi-cancer classification
+* Cloud deployment
+* Email notifications
+* Advanced analytics dashboard
+* Ensemble learning approaches
+
+## Important Note
+
+This project was developed for educational and research purposes.
+
+The AI component is intended as a proof-of-concept system demonstrating the integration of machine learning into a healthcare workflow. It should not be used for real clinical diagnosis or treatment decisions. Final interpretation of medical images should always be performed by qualified healthcare professionals.
