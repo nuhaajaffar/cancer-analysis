@@ -318,7 +318,8 @@ cancer-analysis/
 | Doctor       | [doctor@example.com](mailto:doctor@example.com)             | password123 |
 | Radiographer | [radiographer@example.com](mailto:radiographer@example.com) | password123 |
 | Radiologist  | [radiologist@example.com](mailto:radiologist@example.com)   | password123 |
-| Patient      | [patient@example.com](mailto:patient@example.com)           | password123 |
+| Patient One  | [patient1@example.com](mailto:patient@example.com)          | password123 |
+| Patient Two  | [patient2@example.com](mailto:patient@example.com)          | password123 |
 
 ## Setup Instructions
 
@@ -407,7 +408,7 @@ ai_int/evaluation/
 ### Generated Reports
 
 ```text
-storage/app/public/ai_reports/
+storage/app/public/reports/
 ```
 
 ## Limitations
