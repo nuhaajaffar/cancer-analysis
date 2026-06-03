@@ -235,10 +235,37 @@ PDF Report Generation
 cancer-analysis/
 │
 ├── app/
+│   ├── Http/
+│   │   ├── Controllers/
+│   │   │   ├── AuthController.php
+│   │   │   ├── PatientController.php
+│   │   │   ├── ScanController.php
+│   │   │   ├── ReportController.php
+│   │   │   ├── AIController.php
+│   │   │   └── ...
+│   │   │
+│   │   └── Middleware/
+│   │       └── RoleMiddleware.php
+│   │
+│   └── Models/
+│       ├── User.php
+│       ├── PatientScan.php
+│       ├── PatientReport.php
+│       ├── Appointment.php
+│       ├── AuditLog.php
+│       └── AppNotification.php
+│
 ├── database/
+│   ├── migrations/
+│   └── seeders/
+│
 ├── resources/
-├── routes/
+│   └── views/
+│
 ├── storage/
+│       └── public/
+│           ├── scans/
+│           └── reports/
 │
 ├── ai_int/
 │   ├── dataset/
@@ -248,6 +275,9 @@ cancer-analysis/
 │   ├── evaluate_model.py
 │   ├── analyse_scan.py
 │   └── generate_report.py
+│
+├── routes/
+│   └── web.php
 │
 └── README.md
 ```
@@ -295,7 +325,7 @@ cancer-analysis/
 ### Clone Repository
 
 ```bash
-git clone <repository-url>
+git clone https://github.com/nuhaajaffar/cancer-analysis.git
 cd cancer-analysis
 ```
 
