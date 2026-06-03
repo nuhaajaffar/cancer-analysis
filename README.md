@@ -263,9 +263,9 @@ cancer-analysis/
 │   └── views/
 │
 ├── storage/
-│       └── public/
-│           ├── scans/
-│           └── reports/
+│   └── public/
+│       ├── scans/
+│       └── reports/
 │
 ├── ai_int/
 │   ├── dataset/
